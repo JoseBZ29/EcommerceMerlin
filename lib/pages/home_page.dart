@@ -5,6 +5,7 @@ import 'package:project_ecommerce/bottom_navigation/car_page.dart';
 import 'package:project_ecommerce/bottom_navigation/home_tab.dart';
 import 'package:project_ecommerce/bottom_navigation/profile_tab.dart';
 import 'package:project_ecommerce/bottom_navigation/search_tab.dart';
+import 'package:project_ecommerce/pages/pruebas.dart';
 import 'package:project_ecommerce/utils/my_page_view.dart';
 import 'package:project_ecommerce/widgets/bottom_menu.dart';
 import 'package:project_ecommerce/widgets/common/my_appbar.dart';
@@ -28,6 +29,7 @@ class _HomePageState extends State<HomePage> {
     BottomMenuItem(icon: LineIcons.search, label: "Buscar", content: SearchTab()),
     BottomMenuItem(
         icon: LineIcons.user, label: "Perfil", content: ProfileTab()),
+        BottomMenuItem(icon: Icons.import_contacts, label: 'asas', content: PruebasPage())
     
   ];
 

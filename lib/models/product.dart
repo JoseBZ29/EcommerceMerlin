@@ -23,6 +23,7 @@ class Product {
   String clave;
   String departamento;
   String priceM;
+  String id;
   String price;
 
   Product(this.image, this.name, this.description, this.price);
@@ -40,5 +41,6 @@ class Product {
     categoria=json['CATEGORIA'];
     clave=json['CLAVE'];
     departamento=json['DEPARTAMENTO'];
+    id=json['id_producto'];
   }
 }

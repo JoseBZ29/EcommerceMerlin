@@ -61,6 +61,7 @@ class _ShopItemListState extends State<ShopItemList> {
                         ),
                       ),
                     ),
+
                     Container(
                       padding: EdgeInsets.only(top: 10),
                       child: Align(

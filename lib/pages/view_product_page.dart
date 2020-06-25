@@ -23,40 +23,41 @@ class _ViewProductPageState extends State<ViewProductPage> {
   final Product product;
   String cuenta;
   String price;
+  int cantidad=1;
 
   _ViewProductPageState(this.product);
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     shared();
     precio();
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
- shared() async {
+  shared() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-   setState(() {
+    setState(() {
       cuenta = (prefs.getString('cuenta') ?? 'f');
-   });
+    });
   }
 
- precio() async{
-  setState(() {
-    if(cuenta=='Mayorista'){
-    print('-------------------------------------------------');
-    print(product.priceM);
-    price=product.priceM;
-  }else{
-    price=product.priceC;
+  precio() async {
+    setState(() {
+      if (cuenta == 'Mayorista') {
+        print('-------------------------------------------------');
+        print(product.priceM);
+        price = product.priceM;
+      } else {
+        price = product.priceC;
+      }
+    });
   }
-  });
-}
+
   int active;
 
   @override
   Widget build(BuildContext context) {
-    
     Widget description = Padding(
       padding: const EdgeInsets.all(24.0),
       child: Text(
@@ -75,9 +76,7 @@ class _ViewProductPageState extends State<ViewProductPage> {
           backgroundColor: Colors.transparent,
           elevation: 0.0,
           iconTheme: IconThemeData(color: darkGrey),
-          actions: <Widget>[
-            ShoppingCartIcon()
-          ],
+          actions: <Widget>[ShoppingCartIcon()],
           title: Text(
             product.name,
             style: const TextStyle(
@@ -95,40 +94,76 @@ class _ViewProductPageState extends State<ViewProductPage> {
                 ProductOption(
                   _scaffoldKey,
                   product: product,
+                  cantidad: cantidad,
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 10,top:10),
+                  padding: EdgeInsets.only(left: 10, top: 10),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Text(
+                            "\$" + price,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w300,
+                                color: Colors.grey[750],
+                                fontSize: 30,
+                                fontFamily: 'Montserrat'),
+                          ),
+                          Container(
+                            width: 80,
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              onChanged: (val) {
+                                setState(() {
+                                  cantidad = int.parse(val);
+                                });
+                              },
+                              decoration: InputDecoration(hintText: 'Cantidad'),
+                            ),
+                          )
+                        ],
+                      )),
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 10, top: 10),
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text( "\$"+price, style: TextStyle( fontWeight:FontWeight.w300, color:Colors.grey[750], fontSize: 30, fontFamily: 'Montserrat'),),
+                    child: Text(
+                      product.description,
+                      style: TextStyle(fontSize: 30, fontFamily: 'Montserrat'),
+                    ),
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 10,top:10),
+                  padding: EdgeInsets.only(left: 10, top: 10),
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(product.description, style: TextStyle(fontSize: 30, fontFamily: 'Montserrat'),),
+                    child: Text(
+                      'Marca: ' + product.marca,
+                      style: TextStyle(fontSize: 15, fontFamily: 'Montserrat'),
+                    ),
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 10,top:10),
+                  padding: EdgeInsets.only(left: 10, top: 10),
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text('Marca: '+product.marca, style: TextStyle(fontSize: 15, fontFamily: 'Montserrat'),),
+                    child: Text(
+                      'Categoria: ' + product.marca,
+                      style: TextStyle(fontSize: 15, fontFamily: 'Montserrat'),
+                    ),
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 10,top:10),
+                  padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text('Categoria: '+product.marca, style: TextStyle(fontSize: 15, fontFamily: 'Montserrat'),),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(left: 10,top:10,bottom: 10),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text('Departamento: '+product.departamento, style: TextStyle(fontSize: 15, fontFamily: 'Montserrat'),),
+                    child: Text(
+                      'Departamento: ' + product.departamento,
+                      style: TextStyle(fontSize: 15, fontFamily: 'Montserrat'),
+                    ),
                   ),
                 ),
                 MoreProducts(),
@@ -140,9 +175,9 @@ class _ViewProductPageState extends State<ViewProductPage> {
                 //       children:
                 //           List.generate(5 , (index) {
                 //         return Expanded(
-                          
+
                 //           child: Text('Característica $index',style: TextStyle(fontSize: 15),),
-                          
+
                 //         );
                 //       }),
                 //     )),
@@ -151,6 +186,4 @@ class _ViewProductPageState extends State<ViewProductPage> {
           ),
         ));
   }
-
-  
 }
