@@ -5,6 +5,7 @@ import 'package:project_ecommerce/pages/auth/welcome_back_page.dart';
 import 'package:project_ecommerce/pages/change_password_page.dart';
 import 'package:project_ecommerce/pages/faq_page.dart';
 import 'package:project_ecommerce/pages/notifications_settings_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileTab extends StatefulWidget {
   ProfileTab({Key key}) : super(key: key);
@@ -83,8 +84,14 @@ class _ProfileTabState extends State<ProfileTab> {
                   ListTile(
                     title: Text('Cerrar Sesión'),
                       leading:  Icon(LineIcons.sign_out),
-                    onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => WelcomeBackPage())),
+                    onTap: () async {
+                      SharedPreferences pref=await SharedPreferences.getInstance();
+                      pref.setString('cuenta', 'f');
+                      String cuenta=pref.getString('cuenta');
+                      print(cuenta);
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => WelcomeBackPage()));
+                    },
                   ),
                   
                 ],

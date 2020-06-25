@@ -8,6 +8,7 @@ import 'package:project_ecommerce/models/product.dart';
 import 'package:project_ecommerce/widgets/product/more_products.dart';
 import 'package:project_ecommerce/widgets/product/product_options.dart';
 import 'package:project_ecommerce/widgets/shopping_cart_icon.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ViewProductPage extends StatefulWidget {
   final Product product;
@@ -20,11 +21,37 @@ class ViewProductPage extends StatefulWidget {
 
 class _ViewProductPageState extends State<ViewProductPage> {
   final Product product;
+  String cuenta;
+  String price;
 
   _ViewProductPageState(this.product);
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  @override
+  void initState() { 
+    super.initState();
+    shared();
+    precio();
+  }
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+ shared() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+   setState(() {
+      cuenta = (prefs.getString('cuenta') ?? 'f');
+   });
+  }
+
+ precio() async{
+  setState(() {
+    if(cuenta=='Mayorista'){
+    print('-------------------------------------------------');
+    print(product.priceM);
+    price=product.priceM;
+  }else{
+    price=product.priceC;
+  }
+  });
+}
   int active;
 
   @override
@@ -73,7 +100,7 @@ class _ViewProductPageState extends State<ViewProductPage> {
                   padding: EdgeInsets.only(left: 10,top:10),
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text( "\$"+product.priceC, style: TextStyle( fontWeight:FontWeight.w300, color:Colors.grey[750], fontSize: 30, fontFamily: 'Montserrat'),),
+                    child: Text( "\$"+price, style: TextStyle( fontWeight:FontWeight.w300, color:Colors.grey[750], fontSize: 30, fontFamily: 'Montserrat'),),
                   ),
                 ),
                 Container(

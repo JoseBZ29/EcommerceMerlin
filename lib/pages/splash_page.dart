@@ -1,7 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:project_ecommerce/app_properties.dart';
 import 'package:project_ecommerce/pages/auth/welcome_back_page.dart';
+import 'package:project_ecommerce/pages/home_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -12,6 +13,7 @@ class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   Animation<double> opacity;
   AnimationController controller;
+  Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
   @override
   void initState() {
@@ -33,9 +35,16 @@ class _SplashScreenState extends State<SplashScreen>
     super.dispose();
   }
 
-  void navigationPage() {
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (_) => WelcomeBackPage()));
+  void navigationPage() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+     String cuenta = (prefs.getString('cuenta') ?? 'f');
+    if (cuenta == 'f') {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => WelcomeBackPage()));
+    } else {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (_) => HomePage()));
+    }
   }
 
   Widget build(BuildContext context) {
@@ -54,7 +63,6 @@ class _SplashScreenState extends State<SplashScreen>
                       opacity: opacity.value,
                       child: new Image.asset('assets/logo.png')),
                 ),
-                
               ],
             ),
           ),

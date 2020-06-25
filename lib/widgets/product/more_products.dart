@@ -4,7 +4,12 @@ import 'package:project_ecommerce/models/product.dart';
 import 'package:project_ecommerce/providers/producto_provider.dart';
 import 'package:project_ecommerce/widgets/product/product_card.dart';
 
-class MoreProducts extends StatelessWidget {
+class MoreProducts extends StatefulWidget {
+  @override
+  _MoreProductsState createState() => _MoreProductsState();
+}
+
+class _MoreProductsState extends State<MoreProducts> {
   final productos = new ProductoProvider();
 
   @override

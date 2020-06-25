@@ -4,6 +4,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:project_ecommerce/app_properties.dart';
 import 'package:project_ecommerce/models/product.dart';
 import 'package:project_ecommerce/pages/view_product_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class ProductList extends StatelessWidget {
@@ -96,7 +97,7 @@ class ProductList extends StatelessWidget {
   }
 }
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends StatefulWidget {
   final Product product;
   final double height;
   final double width;
@@ -105,15 +106,53 @@ class ProductCard extends StatelessWidget {
       : super(key: key);
 
   @override
+  _ProductCardState createState() => _ProductCardState(product);
+}
+
+class _ProductCardState extends State<ProductCard> {
+
+  Product product;
+  String price;
+  String cuenta;
+
+  _ProductCardState(this.product);
+
+  @override
+  void initState() { 
+    super.initState();
+    shared();
+    precio();
+  }
+
+  shared() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+   setState(() {
+      cuenta = (prefs.getString('cuenta') ?? 'f');
+   });
+  }
+
+ precio() async{
+  setState(() {
+    if(cuenta=='Mayorista'){
+    print('-------------------------------------------------');
+    print(product.priceM);
+    price=product.priceM;
+  }else{
+    price=product.priceC;
+  }
+  });
+}
+
+  @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) =>  ViewProductPage(product: product,))),
+          MaterialPageRoute(builder: (_) =>  ViewProductPage(product: widget.product,))),
       child: Stack(
         children: <Widget>[
           Container(
-            height: height,
-            width: width,
+            height: widget.height,
+            width: widget.width,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(24)),
               color: transparentPink,
@@ -133,7 +172,7 @@ class ProductCard extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            product.name ?? '',
+                            widget.product.name ?? '',
                             style:
                                 TextStyle(color: Colors.white, fontSize: 16.0),
                           ),
@@ -151,7 +190,7 @@ class ProductCard extends StatelessWidget {
                           color: Color.fromRGBO(224, 69, 10, 1),
                         ),
                         child: Text(
-                          '\$${product.price ?? 0.0}',
+                          '\$'+price,
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -169,9 +208,9 @@ class ProductCard extends StatelessWidget {
             child: Container(
               margin: EdgeInsets.only(top:30),
               child: Image.network(
-                'http://petshome.com.mx/public_html/'+product.image ?? '',
-                height: height / 1.8,
-                width: width / 1.5,
+                'http://petshome.com.mx/public_html/'+widget.product.image ?? '',
+                height: widget.height / 1.8,
+                width: widget.width / 1.5,
                 fit: BoxFit.contain,
               )
             )

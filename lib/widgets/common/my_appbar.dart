@@ -1,10 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class MyAppBar extends StatelessWidget {
+class MyAppBar extends StatefulWidget {
+  @override
+  _MyAppBarState createState() => _MyAppBarState();
+}
 
- 
+class _MyAppBarState extends State<MyAppBar> {
+  String nombre;
+@override
+void initState() { 
+  super.initState();
+  shared();
+}
+  shared() async {
+    SharedPreferences prefs=await SharedPreferences.getInstance();
+    setState(() {
+      nombre=prefs.getString('nombre');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +45,7 @@ class MyAppBar extends StatelessWidget {
               direction: Axis.vertical,
               children: <Widget>[
                 Text(
-                  'Hola, Alan',
+                  'Hola, $nombre',
                   style: TextStyle(
                       fontSize: MediaQuery.of(context).size.width * 0.05),
                 ),
