@@ -12,6 +12,7 @@ class Products {
 }
 
 class Product {
+  String cantidad;
   String image;
   String image2;
   String image3;
@@ -26,9 +27,12 @@ class Product {
   String id;
   String price;
 
-  Product(this.image, this.name, this.description, this.price);
+  Product(this.image, this.name, this.description, this.price,this.cantidad);
+
+  //Product(this.image, this.name, this.description, this.price);
 
   Product.fromJsonMap(Map<String, dynamic> json) {
+    cantidad = '0';
     image = json['imagen_1'];
     image2 = json['imagen_2'];
     image3 = json['imagen_3'];

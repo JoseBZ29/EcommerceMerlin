@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'package:project_ecommerce/models/productID.dart';
-
 import '../models/product.dart';
 import 'package:http/http.dart' as http;
 
@@ -37,14 +35,11 @@ class ProductoProvider {
     return producto;
   }
   Future<Product> getProductos(String query)async{
-    print('-----------------------------------------entro al get product---------------------------------------');
     final uri = Uri.https(url, '/productos/$query');
     final resp = await http.get(uri);
     final decodedData = json.decode(resp.body);
     final producto = new Product.fromJsonMap(decodedData[0]);
-    print('------------------------------aqui es------------------------');
     print(producto.name); 
-    print(producto.id); 
     return producto;
   }
 

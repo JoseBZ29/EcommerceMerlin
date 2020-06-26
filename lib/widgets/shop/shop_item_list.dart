@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:project_ecommerce/app_properties.dart';
 import 'package:project_ecommerce/models/product.dart';
 
 class ShopItemList extends StatefulWidget {
@@ -29,7 +28,7 @@ class _ShopItemListState extends State<ShopItemList> {
               padding: EdgeInsets.only(left: 10),
               height: 100,
               width: 100,
-              child: Image.asset(widget.product.image),
+              child: Image.network('http://petshome.com.mx/public_html/'+widget.product.image),
             ),
             Expanded(
               child: Container(
@@ -50,7 +49,7 @@ class _ShopItemListState extends State<ShopItemList> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          'Cantidad: 1',
+                          'Cantidad: '+widget.product.cantidad,
                           textAlign: TextAlign.left,
                           style: TextStyle(
                               fontSize: 16,
